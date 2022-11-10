@@ -140,12 +140,15 @@ class Heuristic:
       #  print(self.yellowCount)
         self.checkDiagonals()
 
+        weight = [0,1,3,9,20]
+
         print(self.redCount)
         print(self.yellowCount)
-        score = self.redCount[4]*20 - self.yellowCount[4]*20
-        score = score + self.redCount[3]*9 - self.yellowCount[3]*9
-        score = score + self.redCount[2]*3 - self.yellowCount[2]*3
-        score = score + self.redCount[1]   - self.yellowCount[1]
+        score = 0
+        score = score + self.redCount[4]*weight[4] - self.yellowCount[4]*weight[4]
+        score = score + self.redCount[3]*weight[3] - self.yellowCount[3]*weight[3]
+        score = score + self.redCount[2]*weight[2] - self.yellowCount[2]*weight[2]
+        score = score + self.redCount[1]*weight[1] - self.yellowCount[1]*weight[1]
         return score
 
 
