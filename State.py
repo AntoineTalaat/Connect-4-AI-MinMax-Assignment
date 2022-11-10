@@ -14,7 +14,7 @@ class State:
         indexPlace = self.rep & temp
         position = chunckShift + indexPlace + 3
 
-        # Modify the bit it self
+        # Modify the bit itself
         if playerColour == 'y':
             self.changeBit(position, 0)
         elif playerColour == 'r':
