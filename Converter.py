@@ -2,9 +2,9 @@ class Converter:
 
     def convertStateToArray(self,inState):
        # state = bin(state)
-        print("works on ",inState)
+       #  print("works on ",inState)
         state = "{0:b}".format(inState)
-        print(state)
+        # print(state)
         rows, cols = (6, 7)
         arrayState = [['w' for i in range(cols)] for j in range(rows)]
         state = str(state)

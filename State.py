@@ -1,23 +1,31 @@
+import math
+import sys
 import Converter
-
+import Heuristic
 
 class State:
     rep = int('0b111111000111111000111111000111111000111111000111111000111111000', 2)
     children = []
     max = True
 
-    # alpha = int('-inf')
-    # beta = int ('int')
+    alpha = -math.inf
+    beta = math.inf
 
     def getScore(self):
-        if self.isFull():
-            return 0#score mn mark
-        else:
-            return 0#heuristic mn tony
+        # if self.isFull():
+        #     return 0#score mn mark
+        # else:
+        #     return 0#heuristic mn tony
+        c= Converter.Converter()
+        arrayState = c.convertStateToArray(self.rep)
+        h=Heuristic.Heuristic(arrayState)
+        return h.getHeuristicScore()
 
-    def changeBit(parent, pos, bit):
+
+    def changeBit(self,parent, pos, bit):
         mask = 1 << pos
         parent = (parent & ~mask) | ((bit << pos) & mask)
+        return parent
 
     def addToColumn(self, parent, col, playerColour):
         chunckShift = col * 9
@@ -27,9 +35,9 @@ class State:
 
         # Modify the bit itself
         if playerColour == 'y':
-            self.changeBit(parent, position, 0)
+            parent = self.changeBit(parent, position, 0)
         elif playerColour == 'r':
-            self.changeBit(parent, position, 1)
+            parent = self.changeBit(parent, position, 1)
 
         # modify the index in representation
         binary = "{0:03b}".format(indexPlace + 1)  # 101
@@ -64,6 +72,20 @@ class State:
 if __name__ == '__main__':
     state = State()
     state.rep = int('0b111111000111111000111111000111111000111111000111111000111111000', 2)
-    print(bin(state.rep))
-    state.addToColumn(6, 'y')
-    print(bin(state.rep))
+    # print(bin(state.rep))
+    # state.addToColumn(6, 'y')
+    # state.findMyChildren()
+    # print(len(state.children))
+    # for i in range(7):
+    #     print(state.children[i].rep)
+    #     print("has x children : " + str(len(state.children[i].children)))
+    #
+    print(sys.getsizeof(state))
+    print(sys.getsizeof(state.rep))
+    x=5
+    print(sys.getsizeof(x))
+    # for child in state.children:
+    #     child.findMyChildren()
+    #     print(len(child.children))
+
+    # print(bin(state.rep))
