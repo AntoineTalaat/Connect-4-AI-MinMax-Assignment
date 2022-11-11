@@ -15,18 +15,18 @@ width = COLUMN_COUNT * SQUARESIZE
 height = (ROW_COUNT + 1) * SQUARESIZE
 class Game:
     def create_board(self):
-        board = np.zeros((ROW_COUNT, COLUMN_COUNT))
+        board = [['w' for i in range(COLUMN_COUNT)] for j in range(ROW_COUNT)]
         return board
 
     def drop_piece(self, board, row, col, piece):
         board[row][col] = piece
 
     def is_valid_location(self, board, col):
-        return board[ROW_COUNT - 1][col] == 0
+        return board[ROW_COUNT - 1][col] == 'w'
 
     def get_next_open_row(self, board, col):
         for r in range(ROW_COUNT):
-            if board[r][col] == 0:
+            if board[r][col] == 'w':
                 return r
 
     def winning_move(self, board, piece):
@@ -63,9 +63,9 @@ class Game:
 
         for c in range(COLUMN_COUNT):
             for r in range(ROW_COUNT):
-                if board[r][c] == 1:
+                if board[r][c] == 'r':
                     pygame.draw.circle(self.screen, RED, (int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-                elif board[r][c] == 2:
+                elif board[r][c] == 'y':
                     pygame.draw.circle(self.screen, YELLOW, (int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
         pygame.display.flip()
     def new(self):
@@ -110,7 +110,7 @@ class Game:
 
                             if self.is_valid_location(self.board, col):
                                 row = self.get_next_open_row(self.board, col)
-                                self.drop_piece(self.board, row, col, 1)
+                                self.drop_piece(self.board, row, col, 'r')
                                 self.turns -= 1
                         else:
                             posx = event.pos[0]
@@ -118,7 +118,7 @@ class Game:
 
                             if self.is_valid_location(self.board, col):
                                 row = self.get_next_open_row(self.board, col)
-                                self.drop_piece(self.board, row, col, 2)
+                                self.drop_piece(self.board, row, col, 'y')
                                 self.turns -= 1
 
 
@@ -127,8 +127,8 @@ class Game:
 
                         if self.turns == 0:
                             self.finish = True
-                            self.player_1_Score = self.winning_move(self.board, 1)
-                            self.player_2_Score = self.winning_move(self.board, 2)
+                            self.player_1_Score = self.winning_move(self.board, 'r')
+                            self.player_2_Score = self.winning_move(self.board, 'y')
                             print(self.player_1_Score, self.player_2_Score)
                             label = myfont.render("Red score = " + str(self.player_1_Score), 1, RED)
                             label2 = myfont.render("Yellow score = " + str(self.player_2_Score), 1, YELLOW)
