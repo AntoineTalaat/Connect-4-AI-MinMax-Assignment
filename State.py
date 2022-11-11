@@ -17,6 +17,7 @@ class State:
         # else:
         #     return 0#heuristic mn tony
         c= Converter.Converter()
+        print("rep: ", self.rep)
         arrayState = c.convertStateToArray(self.rep)
         h=Heuristic.Heuristic(arrayState)
         return h.getHeuristicScore()
@@ -42,23 +43,24 @@ class State:
         indexPlace = indexPlace >> chunckShift
         position = chunckShift + indexPlace + 3
 
+        if indexPlace < 6:
+           # print("chunck  ",chunckShift)
+           # print("index place ",indexPlace)
+           # print("position ",position)
+            # Modify the bit itself
+            if playerColour == 'y':
+                parent = self.changeBit(parent, position, 0)
+            elif playerColour == 'r':
+                parent = self.changeBit(parent, position, 1)
 
-       # print("chunck  ",chunckShift)
-       # print("index place ",indexPlace)
-       # print("position ",position)
-        # Modify the bit itself
-        if playerColour == 'y':
-            parent = self.changeBit(parent, position, 0)
-        elif playerColour == 'r':
-            parent = self.changeBit(parent, position, 1)
+            # modify the index in representation
+            binary = "{0:03b}".format(indexPlace + 1)  # 101
 
-        # modify the index in representation
-        binary = "{0:03b}".format(indexPlace + 1)  # 101
+            for i in range(len(binary)):
+              #  print("loop counter ",i)
+                parent = self.changeBit(parent, chunckShift + i, int(binary[2 - i]))
 
-        for i in range(len(binary)):
-          #  print("loop counter ",i)
-            parent = self.changeBit(parent, chunckShift + i, int(binary[2 - i]))
-
+            return parent
         return parent
 
     def findMyChildren(self):
