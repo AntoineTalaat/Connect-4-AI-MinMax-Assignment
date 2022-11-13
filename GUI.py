@@ -154,12 +154,12 @@ class Game:
                                     self.printBoardConsole(self.board)
 
                                     s.rep = conv.convertArrayToState(self.board)
-                                    print(s.rep)
+                                    print(bin(s.rep))
                                     print("run algo")
                                     algo = MinMax()
-                                    value, move = algo.MinMax2(4, s, False, True)
+                                    value, move = algo.MinMax(5, s, False, True)
                                     self.board = conv.convertStateToArray(move.rep)
-                                    print(move.rep)
+
 
                                     self.printBoardConsole(self.board)
                                     self.turns -= 1
