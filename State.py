@@ -11,6 +11,15 @@ class State:
     alpha = -math.inf
     beta = math.inf
 
+
+    def __init__(self):
+        children = []
+        max = True
+        rep = int('0b111111000111111000111111000111111000111111000111111000111111000', 2)
+        alpha = -math.inf
+        beta = math.inf
+
+
     def getScore(self):
         # if self.isFull():
         #     return 0#score mn mark

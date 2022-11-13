@@ -13,6 +13,8 @@ class MinMax:
 
     def maxValue(self, k, state, withAlphaBeta):
         v = float('-inf')
+        print("in max children len is ", len(state.children))
+
         for child in state.children:
             value, futureMove = self.MinMax2(k - 1, child, withAlphaBeta, False)
             if value > v:
@@ -26,7 +28,7 @@ class MinMax:
 
     def minValue(self, k, state, withAlphaBeta):
         v = float('inf')
-
+        print("in min children len is ", len(state.children))
         for child in state.children:
             value, futureMove = self.MinMax2(k - 1, child, withAlphaBeta, True)
             if value < v:
@@ -51,7 +53,8 @@ class MinMax:
             return move
     '''
     def MinMax2(self, k, currentState, withAlphaBeta, isAITurn):
-        
+        if k == 4 :
+            print(currentState.rep)
         currentState.findMyChildren()
 
       #  print("State Start: " + str(currentState.rep))
