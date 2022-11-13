@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 import sys
 import math
+import time
 
 from Heuristic import Heuristic
 from MinMax import*
@@ -92,6 +93,7 @@ class Game:
         self.turns = 42
         self.player_1_Score = 0
         self.player_2_Score = 0
+        self.avgTime = 0
 
 
         if self.start == False:
@@ -159,8 +161,10 @@ class Game:
                                     print(bin(s.rep))
                                     print("run algo")
                                     algo = MinMax()
+                                    start = time.time()
                                     value, move = algo.MinMax(5, s, True, True)
-
+                                    end = time.time()
+                                    self.avgTime+= (end - start)
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
                                     print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
@@ -187,8 +191,10 @@ class Game:
                                 print(self.player_1_Score, self.player_2_Score)
                                 label = myfont.render("Red score = " + str(self.player_1_Score), 1, RED)
                                 label2 = myfont.render("Yellow score = " + str(self.player_2_Score), 1, YELLOW)
+                                label3 = myfont.render("Avg time = " + str(self.avgTime/21) + " sec", 1, (255,255,255))
                                 self.screen.blit(label, (10, 10))
-                                self.screen.blit(label2, (10, 60))
+                                self.screen.blit(label2, (300, 10))
+                                self.screen.blit(label3, (10, 60))
                                 self.draw_board(self.board)
                                 pygame.display.update()
 
