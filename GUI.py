@@ -97,6 +97,12 @@ class Game:
             self.print_board(self.board)
             self.draw_board(self.board)
 
+
+    def printBoardConsole(self,board):
+        print()
+        for row in range(0, len(board)):
+            print(board[len(board) - row - 1])
+        print()
     def gameloop(self):
         self.start_window()
        # self.new()
@@ -135,11 +141,19 @@ class Game:
                                     self.turns -= 1
                                     self.draw_board(self.board)
                                     s = State.State()
-                                    conv = Converter.Converter() 
+                                    conv = Converter.Converter()
+                                    print("sending this to algorithm")
+                                    self.printBoardConsole(self.board)
+
                                     s.rep = conv.convertArrayToState(self.board)
+                                    print(s.rep)
+                                    print("run algo")
                                     algo = MinMax()
                                     value, move = algo.MinMax2(4, s, False, True)
                                     self.board = conv.convertStateToArray(move.rep)
+                                    print(move.rep)
+
+                                    self.printBoardConsole(self.board)
                                     self.turns -= 1
 
                            #     posx = event.pos[0]

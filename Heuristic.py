@@ -90,7 +90,7 @@ class Heuristic:
         score = score + self.redCount[3]*weight[3] - self.yellowCount[3]*weight[3]
         score = score + self.redCount[2]*weight[2] - self.yellowCount[2]*weight[2]
         score = score + self.redCount[1]*weight[1] - self.yellowCount[1]*weight[1]
-        return score
+        return -1* score
 
 
 if __name__ == '__main__':

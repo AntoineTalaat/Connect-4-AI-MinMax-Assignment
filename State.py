@@ -17,7 +17,7 @@ class State:
         # else:
         #     return 0#heuristic mn tony
         c= Converter.Converter()
-        print("rep: ", self.rep)
+        # print("rep: ", self.rep)
         arrayState = c.convertStateToArray(self.rep)
         h=Heuristic.Heuristic(arrayState)
         return h.getHeuristicScore()
@@ -99,11 +99,11 @@ class State:
 if __name__ == '__main__':
     state = State()
     state.rep = int('111111000111111001111100011110111100111111001111000100111100010', 2)
-    print(len(state.children))
+    # print(len(state.children))
     # print(bin(state.rep))
     # state.addToColumn(6, 'y')
     state.findMyChildren()
-    print(len(state.children))
+    # print(len(state.children))
 
     for i in range(7):
         print(state.children[i].rep)

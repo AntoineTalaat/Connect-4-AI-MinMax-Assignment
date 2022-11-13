@@ -6,7 +6,7 @@ class Converter:
 
         state = "{0:b}".format(inState)
 
-        print("state ", state)
+        # print("state ", state)
         # print(state)
         rows, cols = (6, 7)
         arrayState = [['w' for i in range(cols)] for j in range(rows)]
@@ -17,9 +17,9 @@ class Converter:
             nextIndex = int(state[index - 3: index], 2)  # convert binary rep of empty space to decimal
             i = 0
             startIndex = index - 4
-            print("Next ", nextIndex)
+            # print("Next ", nextIndex)
             while nextIndex != 0:
-                print("i ", i, " col ", col)
+                # print("i ", i, " col ", col)
                 if state[startIndex] == '0':
                     arrayState[i][col] = 'y'
                 else:

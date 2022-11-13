@@ -51,6 +51,7 @@ class MinMax:
             return move
     '''
     def MinMax2(self, k, currentState, withAlphaBeta, isAITurn):
+        
         currentState.findMyChildren()
 
       #  print("State Start: " + str(currentState.rep))
