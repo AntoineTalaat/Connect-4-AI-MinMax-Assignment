@@ -29,6 +29,8 @@ class Heuristic:
 
     def __init__(self, board):
         self.stateBoard = board
+        self.redCount = [0, 0, 0, 0, 0]
+        self.yellowCount = [0, 0, 0, 0, 0]
 
     def updateCounters(self, partialScore):
         if partialScore > 0:
@@ -85,12 +87,14 @@ class Heuristic:
         self.checkDiagonals()
 
         weight = [0,0.05,0.015,0.45,1]
-        score = 0
+        score = 0.0
         score = score + self.redCount[4]*weight[4] - self.yellowCount[4]*weight[4]
         score = score + self.redCount[3]*weight[3] - self.yellowCount[3]*weight[3]
         score = score + self.redCount[2]*weight[2] - self.yellowCount[2]*weight[2]
         score = score + self.redCount[1]*weight[1] - self.yellowCount[1]*weight[1]
-        return -1* score
+
+        print("returned a score of ", -1.0*score)
+        return (-1.0)* score
 
 
 if __name__ == '__main__':

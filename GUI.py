@@ -2,6 +2,8 @@ import numpy as np
 import pygame
 import sys
 import math
+
+from Heuristic import Heuristic
 from MinMax import*
 import State
 import Converter
@@ -158,8 +160,10 @@ class Game:
                                     print("run algo")
                                     algo = MinMax()
                                     value, move = algo.MinMax(5, s, False, True)
-                                    self.board = conv.convertStateToArray(move.rep)
 
+                                    self.board = conv.convertStateToArray(move.rep)
+                                    h = Heuristic(self.board)
+                                    print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
 
                                     self.printBoardConsole(self.board)
                                     self.turns -= 1
