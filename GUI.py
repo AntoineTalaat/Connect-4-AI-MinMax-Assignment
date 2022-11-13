@@ -137,7 +137,7 @@ class Game:
                                  pygame.draw.circle(self.screen, RED, (posx, int(SQUARESIZE/2)), RADIUS)
                              else:
                                 pygame.draw.circle(self.screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
-                             pygame.display.flip()    
+                             pygame.display.flip()
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
 
@@ -159,7 +159,7 @@ class Game:
                                     print(bin(s.rep))
                                     print("run algo")
                                     algo = MinMax()
-                                    value, move = algo.MinMax(5, s, False, True)
+                                    value, move = algo.MinMax(5, s, True, True)
 
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
@@ -174,9 +174,9 @@ class Game:
                              #   if self.is_valid_location(self.board, col):
                               #      row = self.get_next_open_row(self.board, col)
                                #     self.drop_piece(self.board, row, col, 'y')
-                                   
-                                   
-                                    
+
+
+
 
                             self.draw_board(self.board)
 
@@ -192,7 +192,7 @@ class Game:
                                 self.draw_board(self.board)
                                 pygame.display.update()
 
-                            
+
 
                             if self.finish:
                                 # pygame.time.wait(5000)

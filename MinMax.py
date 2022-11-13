@@ -1,23 +1,38 @@
+import State
+
+
 class MinMax:
     def maxValue(self, k, state, withAlphaBeta):
         v = float('-inf')
         move = None
         children = state.findMyChildren()
+        '''
+        print("Tree")
+        for child in children:
+            print(bin(child.rep))
+        print(">>>>>>>>")
+        '''
         for child in children:
             value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, False)
             if value > v:
                 v = value
                 move = child
-            if withAlphaBeta and value >= state.beta:
+            if withAlphaBeta and v >= state.beta:
                 return (value, move)
             if withAlphaBeta:
-                state.beta = max(state.alpha, value)
+                state.alpha = max(state.alpha, value)
         return (v, move)
 
     def minValue(self, k, state, withAlphaBeta):
         v = float('inf')
         move = None
         children = state.findMyChildren()
+        '''
+        print("Tree")
+        for child in children:
+            print(bin(child.rep))
+        print(">>>>>>>>")
+        '''
         for child in children:
             value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, True)
             if value < v:
