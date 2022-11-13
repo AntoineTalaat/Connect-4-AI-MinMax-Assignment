@@ -122,6 +122,14 @@ class Game:
                                 print("N")
                                 self.new()
                     else:
+                        if event.type == pygame.MOUSEMOTION:
+                             pygame.draw.rect(self.screen, BLACK, (0,0, width, SQUARESIZE))
+                             posx = event.pos[0]
+                             if self.turn == 0:
+                                 pygame.draw.circle(self.screen, RED, (posx, int(SQUARESIZE/2)), RADIUS)
+                             else:
+                                pygame.draw.circle(self.screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
+                             pygame.display.flip()    
                         if event.type == pygame.MOUSEBUTTONDOWN:
                             pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
 
