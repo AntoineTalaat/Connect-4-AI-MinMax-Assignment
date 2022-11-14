@@ -8,6 +8,7 @@ from Heuristic import Heuristic
 from MinMax import*
 import State
 import Converter
+from button import*
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 RED = (232, 14, 14)
@@ -85,21 +86,64 @@ class Game:
         self.screen = pygame.display.set_mode(size)
         self.start = True
         self.game_over = False
+        self.base_font = pygame.font.SysFont("Consolas", 24)
+        self.user_text=''
+        self.input_txt = pygame.Rect(100,200,140,32)
+        pygame.draw.rect(self.screen,(255,255,255),self.input_txt,2)
+        self.text = self.base_font.render('K level pruning', True, MINTGREEN)
+        self.screen.blit(self.text,(100,150))
+        button1  =Button(100, 400, 200, 50, "Red", RED, BLACK,30)
+        button2  =Button(400, 400, 200, 50, "Yellow", YELLOW, BLACK,30)
+        self.button_list=[]
+        self.button_list.append(button1)
+        self.button_list.append(button2)
+        button1.draw(self.screen)
+        button2.draw(self.screen)
+        self.text2 = self.base_font.render('Alpha-beta pruning:', True, MINTGREEN)
+        self.screen.blit(self.text2,(400,150))
+        checkbox1 = Checkbox(self.screen , 400,200, 0, caption='YES' ,font_color= (255,255,255), font_size=30)
+        checkbox2 = Checkbox(self.screen, 400, 250, 1, caption='NO' ,font_color= (255,255,255), font_size=30)
+        self.boxes=[]
+        self.boxes.append(checkbox1)
+        self.boxes.append(checkbox2)
+        for box in self.boxes:
+            box.render_checkbox()  
+           
+        pygame.display.flip()
     def new(self):
 
         self.game_over = False
         self.finish = False
-        self.turn = 0
+        self.turn = 1
         self.turns = 42
         self.player_1_Score = 0
         self.player_2_Score = 0
         self.avgTime = 0
-
+       
+        
 
         if self.start == False:
             self.board = self.create_board()
             self.print_board(self.board)
             self.draw_board(self.board)
+
+        if self.turn == 1:
+            s = State.State()
+            s.max=False
+            conv = Converter.Converter()
+            s.rep = conv.convertArrayToState(self.board)
+            algo = MinMax()
+            start = time.time()
+            value, move = algo.MinMax(int(self.user_text), s, True, True)
+            end = time.time()
+            self.avgTime+= (end - start)
+            self.board = conv.convertStateToArray(move.rep)
+            h = Heuristic(self.board)
+            print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
+            self.printBoardConsole(self.board)
+            self.turns -= 1
+            self.draw_board(self.board)
+
 
 
     def printBoardConsole(self,board):
@@ -125,6 +169,37 @@ class Game:
                              self.start =False
                              self.new()
                              print("S")
+                         if event.key == pygame.K_BACKSPACE:
+                            self.user_text = self.user_text[:-1]
+                         else:
+                             if (event.key == pygame.K_0 or event.key == pygame.K_1  or event.key ==pygame.K_2 or event.key ==pygame.K_3 or event.key ==pygame.K_4 or event.key ==pygame.K_5 or event.key ==pygame.K_6 or event.key ==pygame.K_7 or event.key ==pygame.K_8 or event.key == pygame.K_KP_0 or event.key == pygame.K_KP_1  or event.key ==pygame.K_KP_2 or event.key ==pygame.K_KP_3 or event.key ==pygame.K_KP_4 or event.key ==pygame.K_KP_5 or event.key ==pygame.K_KP_6 or event.key ==pygame.K_KP_7 or event.key ==pygame.K_KP_8 ) and len(self.user_text)<9 : 
+                                 self.user_text+= event.unicode   
+                                 self.text_surface = self.base_font.render(self.user_text,True,(255,255,255))
+                                 self.screen.blit(self.text_surface,(self.input_txt.x+5,self.input_txt.y+5))
+                                 pygame.display.flip()
+                                 print(self.user_text) 
+                     if event.type== pygame.MOUSEBUTTONDOWN:
+                         mouse_x, mouse_y = pygame.mouse.get_pos()
+                         for button in self.button_list:
+                            if button.click(mouse_x,mouse_y):
+                                if button.text== "Red":
+                                    print("Red")
+                                if button.text== "Yellow":
+                                    print("Yellow") 
+                         for box in self.boxes:
+                             box.update_checkbox(event)
+                             if box.checked is True:
+                                print(box.caption)
+                                for b in self.boxes:
+                                    if b != box:
+                                        b.checked = False 
+                                for box in self.boxes:
+                                    box.render_checkbox()
+                                    pygame.display.flip()          
+                                           
+
+                            
+                                  
                 else:
                     if self.finish:
                         if event.type == pygame.KEYUP:
@@ -141,18 +216,24 @@ class Game:
                                 pygame.draw.circle(self.screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
                              pygame.display.flip()
                         if event.type == pygame.MOUSEBUTTONDOWN:
-                            pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
+                                pygame.draw.rect(self.screen, BLACK, (0, 0, width, SQUARESIZE))
 
-                            if self.turn == 0:
+                            
                                 posx = event.pos[0]
                                 col = int(math.floor(posx / SQUARESIZE))
 
                                 if self.is_valid_location(self.board, col):
                                     row = self.get_next_open_row(self.board, col)
-                                    self.drop_piece(self.board, row, col, 'r')
+                                    s = State.State()
+                                    if self.turn == 0:
+                                        self.drop_piece(self.board, row, col, 'r')
+                                        s.max = True
+                                    else:
+                                        self.drop_piece(self.board, row, col, 'y')
+                                        s.max =False
+
                                     self.turns -= 1
                                     self.draw_board(self.board)
-                                    s = State.State()
                                     conv = Converter.Converter()
                                     print("sending this to algorithm")
                                     self.printBoardConsole(self.board)
@@ -162,7 +243,7 @@ class Game:
                                     print("run algo")
                                     algo = MinMax()
                                     start = time.time()
-                                    value, move = algo.MinMax(5, s, True, True)
+                                    value, move = algo.MinMax(int(self.user_text), s, True, True)
                                     end = time.time()
                                     self.avgTime+= (end - start)
                                     self.board = conv.convertStateToArray(move.rep)
@@ -171,42 +252,25 @@ class Game:
 
                                     self.printBoardConsole(self.board)
                                     self.turns -= 1
-
-                           #     posx = event.pos[0]
-                            #    col = int(math.floor(posx / SQUARESIZE))
-
-                             #   if self.is_valid_location(self.board, col):
-                              #      row = self.get_next_open_row(self.board, col)
-                               #     self.drop_piece(self.board, row, col, 'y')
-
-
-
-
-                            self.draw_board(self.board)
-
-                            if self.turns == 0:
-                                self.finish = True
-                                self.player_1_Score = self.winning_move(self.board, 'r')
-                                self.player_2_Score = self.winning_move(self.board, 'y')
-                                print(self.player_1_Score, self.player_2_Score)
-                                label = myfont.render("Red score = " + str(self.player_1_Score), 1, RED)
-                                label2 = myfont.render("Yellow score = " + str(self.player_2_Score), 1, YELLOW)
-                                label3 = myfont.render("Avg time = " + str(self.avgTime/21) + " sec", 1, (255,255,255))
-                                self.screen.blit(label, (10, 10))
-                                self.screen.blit(label2, (300, 10))
-                                self.screen.blit(label3, (10, 60))
+                             
                                 self.draw_board(self.board)
-                                pygame.display.update()
+
+                                if self.turns == 0:
+                                    self.finish = True
+                                    self.player_1_Score = self.winning_move(self.board, 'r')
+                                    self.player_2_Score = self.winning_move(self.board, 'y')
+                                    print(self.player_1_Score, self.player_2_Score)
+                                    label = myfont.render("Red score = " + str(self.player_1_Score), 1, RED)
+                                    label2 = myfont.render("Yellow score = " + str(self.player_2_Score), 1, YELLOW)
+                                    label3 = myfont.render("Avg time = " + str(self.avgTime/21) + " sec", 1, (255,255,255))
+                                    self.screen.blit(label, (10, 10))
+                                    self.screen.blit(label2, (300, 10))
+                                    self.screen.blit(label3, (10, 60))
+                                    self.draw_board(self.board)
+                                    pygame.display.update()
 
 
 
-                            if self.finish:
-                                # pygame.time.wait(5000)
-                                # game_over = False
-                                # board = self.create_board()
-                                # self.draw_board(board)
-                                turn = 0
-                                turns = 42
 
 
 
