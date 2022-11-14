@@ -83,6 +83,8 @@ class Game:
     def start_window(self):
         pygame.init()
         size = (width, height)
+        self.turn = any
+        self.alphaBeta = any
         self.screen = pygame.display.set_mode(size)
         self.start = True
         self.game_over = False
@@ -111,10 +113,10 @@ class Game:
            
         pygame.display.flip()
     def new(self):
-
+        
         self.game_over = False
         self.finish = False
-        self.turn = 1
+        
         self.turns = 42
         self.player_1_Score = 0
         self.player_2_Score = 0
@@ -183,9 +185,29 @@ class Game:
                          for button in self.button_list:
                             if button.click(mouse_x,mouse_y):
                                 if button.text== "Red":
-                                    print("Red")
+                                     for method in self.boxes:
+                                         if(method.checked == True and self.user_text != ''): 
+                                            if method.caption== "YES":
+                                                self.alphaBeta = True
+                                            if method.caption == "NO":
+                                                self.alphaBeta=False
+                                
+                                            self.start =False
+                                            self.turn=0
+                                            self.new()
+                                          
                                 if button.text== "Yellow":
-                                    print("Yellow") 
+                                     for method in self.boxes:
+                                         if(method.checked == True and self.user_text != ''): 
+                                            if method.caption== "YES":
+                                                self.alphaBeta = True
+                                            if method.caption == "NO":
+                                                self.alphaBeta=False                                    
+                                            self.start =False
+                                            self.turn=1
+                                            self.new()
+                                     
+                                     print("Yellow") 
                          for box in self.boxes:
                              box.update_checkbox(event)
                              if box.checked is True:
