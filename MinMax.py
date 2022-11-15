@@ -6,9 +6,11 @@ from treelib import Node, Tree
 
 class MinMax:
     AIcolor = 'y'
+    expandedNode = 0
     tree = Tree()
 
     def maxValue(self, k, state, withAlphaBeta, alpha , beta):
+        self.expandedNode=self.expandedNode+1
         v = float('-inf')
 
         move = None
@@ -32,6 +34,7 @@ class MinMax:
         return (v, move)
 
     def minValue(self, k, state, withAlphaBeta , alpha, beta):
+        self.expandedNode = self.expandedNode + 1
         v = float('inf')
         move = None
         if k == 0 or state.isFull():
