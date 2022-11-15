@@ -9,6 +9,8 @@ class MinMax:
     def maxValue(self, k, state, withAlphaBeta, userColor):
         v = float('-inf')
         move = None
+        if k == 0 or state.isFull():
+            return state.getScore(self.AIcolor), state
         children = state.findMyChildren()
         '''
         print("Tree")
@@ -20,7 +22,7 @@ class MinMax:
 
 
         for child in children:
-            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, False,userColor)
+            value, futureMove = self.minValue(k - 1, child, withAlphaBeta, False)
             if value > v:
                 v = value
                 move = child
@@ -31,8 +33,12 @@ class MinMax:
         return (v, move)
 
     def minValue(self, k, state, withAlphaBeta, userColor):
+
+
         v = float('inf')
         move = None
+        if k == 0 or state.isFull():
+            return state.getScore(self.AIcolor), state
         children = state.findMyChildren()
         '''
         print("Tree")
@@ -41,7 +47,7 @@ class MinMax:
         print(">>>>>>>>")
         '''
         for child in children:
-            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, True, userColor)
+            value, futureMove = self.maxValue(k - 1, child, withAlphaBeta, True)
             if value < v:
                 v = value
                 move = child
@@ -52,15 +58,8 @@ class MinMax:
 
         return (v, move)
 
-    def MinMax(self, k, currentState, withAlphaBeta, isAITurn, userColor) -> (int,State):
+    def MinMax(self, k, currentState, withAlphaBeta, userColor) -> (int,State):
         if(userColor=='y'):
             self.AIcolor='r'
-
-        if k == 0 or currentState.isFull():
-            return currentState.getScore(self.AIcolor), currentState
-        if not isAITurn:
-            v, move = self.minValue(k, currentState, withAlphaBeta,userColor)
-        else:
-            v, move = self.maxValue(k, currentState, withAlphaBeta,userColor)
-
+        v, move = self.maxValue(k, currentState, withAlphaBeta,userColor)
         return v, move
