@@ -1,8 +1,12 @@
 import State
+from treelib import Node, Tree
 
 
 class MinMax:
-    def maxValue(self, k, state, withAlphaBeta):
+    AIcolor = 'y'
+    tree = Tree()
+
+    def maxValue(self, k, state, withAlphaBeta, userColor):
         v = float('-inf')
         move = None
         children = state.findMyChildren()
@@ -13,7 +17,7 @@ class MinMax:
         print(">>>>>>>>")
         '''
         for child in children:
-            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, False)
+            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, False,userColor)
             if value > v:
                 v = value
                 move = child
@@ -23,7 +27,7 @@ class MinMax:
                 state.alpha = max(state.alpha, value)
         return (v, move)
 
-    def minValue(self, k, state, withAlphaBeta):
+    def minValue(self, k, state, withAlphaBeta, userColor):
         v = float('inf')
         move = None
         children = state.findMyChildren()
@@ -34,7 +38,7 @@ class MinMax:
         print(">>>>>>>>")
         '''
         for child in children:
-            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, True)
+            value, futureMove = self.MinMax(k - 1, child, withAlphaBeta, True, userColor)
             if value < v:
                 v = value
                 move = child
@@ -45,11 +49,17 @@ class MinMax:
 
         return (v, move)
 
-    def MinMax(self, k, currentState, withAlphaBeta, isAITurn):
-        if k == 0:
-            return currentState.getScore(), currentState
+    def MinMax(self, k, currentState, withAlphaBeta, isAITurn, userColor) -> (int,State):
+
+        
+        if(userColor=='y'):
+            self.AIcolor='r'
+        if k == 0 or currentState.isFull():
+            return currentState.getScore(self.AIcolor), currentState
         if not isAITurn:
-            v, move = self.minValue(k, currentState, withAlphaBeta)
+            v, move = self.minValue(k, currentState, withAlphaBeta,userColor)
+
         else:
-            v, move = self.maxValue(k, currentState, withAlphaBeta)
+            v, move = self.maxValue(k, currentState, withAlphaBeta,userColor)
+
         return v, move

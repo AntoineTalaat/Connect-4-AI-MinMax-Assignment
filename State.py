@@ -14,10 +14,13 @@ class State:
         alpha = -math.inf
         beta = math.inf
 
-    def getScore(self):
+    def getScore(self, aiColor):
         c = Converter.Converter()
         arrayState = c.convertStateToArray(self.rep)
         h = Heuristic.Heuristic(arrayState)
+
+        if(aiColor=='r'):
+            return -1*h.getHeuristicScore()
         return h.getHeuristicScore()
 
     def changeBit(self, parent, pos, bit):
@@ -70,8 +73,9 @@ class State:
     def isFull(self):
         converter = Converter.Converter()
         arrayState = converter.convertStateToArray(self.rep)
-        for row in arrayState:
-            for i in range(len(row)):
-                if arrayState[row][i] == 'w':
+
+        for rowNum in range(len(arrayState)):
+            for colNum in range(len(arrayState[0])):
+                if arrayState[rowNum][colNum] == 'w':
                     return False
         return True
