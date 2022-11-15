@@ -1,6 +1,3 @@
-import State
-
-
 class Converter:
 
     def convertStateToArray(self,inState:int):
@@ -32,9 +29,6 @@ class Converter:
         return arrayState
 
     def convertArrayToState(self, arr):
-        print("e7na fi el bta3 da ")
-        for row in arr:
-            print(row)
         representation = ""
         rows = len(arr)
         columns = len(arr[0])
@@ -52,14 +46,15 @@ class Converter:
                 else:
                     representation += "1"
             representation += binary
-        print("representation :" , representation)   
         representation = int(representation,2)
         return representation
 
     def convertStateToString(self, rep):
         state = "{0:b}".format(rep)
+        if (len(state) < 63):
+            for i in range(63 - len(state)):
+                state = "0" + state
         stringState = ""
-
         for i in range(7):
             index = i * 9
             stringState = stringState + state[index: index+6] + "(" + state[index+6: index+9] + ")-"

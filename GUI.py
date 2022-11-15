@@ -141,7 +141,7 @@ class Game:
             value, move = algo.MinMax(int(self.user_text), s, self.alphaBeta,self.colorUser)
             end = time.time()
             self.avgTime+= (end - start)
-            self.expandedNodes += algo.expandedNode
+            self.expandedNodes += algo.expandedNodes
             print("Expanded Nodes: ", self.expandedNodes)
             print(algo.tree.show())
             self.board = conv.convertStateToArray(move.rep)
