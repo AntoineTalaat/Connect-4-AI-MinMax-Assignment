@@ -22,6 +22,7 @@ height = (ROW_COUNT + 1) * SQUARESIZE
 
 
 class Game:
+    colorUser='r'
     def create_board(self):
         board = [['w' for i in range(COLUMN_COUNT)] for j in range(ROW_COUNT)]
         return board
@@ -136,7 +137,7 @@ class Game:
             s.rep = conv.convertArrayToState(self.board)
             algo = MinMax()
             start = time.time()
-            value, move = algo.MinMax(int(self.user_text), s, True, True)
+            value, move = algo.MinMax(int(self.user_text), s, True, True,self.colorUser)
             end = time.time()
             self.avgTime+= (end - start)
             self.board = conv.convertStateToArray(move.rep)
@@ -193,6 +194,8 @@ class Game:
                                                 self.alphaBeta=False
                                 
                                             self.start =False
+                                            self.colorUser='r'
+
                                             self.turn=0
                                             self.new()
                                           
@@ -205,6 +208,7 @@ class Game:
                                                 self.alphaBeta=False                                    
                                             self.start =False
                                             self.turn=1
+                                            self.colorUser='y'
                                             self.new()
                                      
                                      print("Yellow") 
@@ -266,7 +270,7 @@ class Game:
                                     print("run algo")
                                     algo = MinMax()
                                     start = time.time()
-                                    value, move = algo.MinMax(int(self.user_text), s, True, True)
+                                    value, move = algo.MinMax(int(self.user_text), s, True, True,self.colorUser)
                                     end = time.time()
                                     self.avgTime+= (end - start)
                                     self.board = conv.convertStateToArray(move.rep)
