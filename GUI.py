@@ -92,7 +92,7 @@ class Game:
         self.base_font = pygame.font.SysFont("Consolas", 24)
         self.user_text=''
         self.input_txt = pygame.Rect(100,200,140,32)
-        pygame.draw.rect(self.screen,(255,255,255),self.input_txt,2)
+        pygame.draw.rect(self.screen,(255,255,255),self.input_txt)
         self.text = self.base_font.render('K level pruning', True, MINTGREEN)
         self.screen.blit(self.text,(100,150))
         button1  =Button(100, 400, 200, 50, "Red", RED, BLACK,30)
@@ -171,16 +171,18 @@ class Game:
                     sys.exit()
                 if self.start:
                      if event.type == pygame.KEYUP:
-                         if event.key == pygame.K_s:
-                             self.start =False
-                             self.new()
-                             print("S")
+
                          if event.key == pygame.K_BACKSPACE:
                             self.user_text = self.user_text[:-1]
+                            self.input_txt = pygame.Rect(100,200,140,32)
+                            pygame.draw.rect(self.screen,(255,255,255),self.input_txt)
+                            self.text_surface = self.base_font.render(self.user_text,True,(0,0,0))
+                            self.screen.blit(self.text_surface,(self.input_txt.x+5,self.input_txt.y+5))
+                            pygame.display.flip()
                          else:
                              if (event.key == pygame.K_0 or event.key == pygame.K_1  or event.key ==pygame.K_2 or event.key ==pygame.K_3 or event.key ==pygame.K_4 or event.key ==pygame.K_5 or event.key ==pygame.K_6 or event.key ==pygame.K_7 or event.key ==pygame.K_8 or event.key == pygame.K_KP_0 or event.key == pygame.K_KP_1  or event.key ==pygame.K_KP_2 or event.key ==pygame.K_KP_3 or event.key ==pygame.K_KP_4 or event.key ==pygame.K_KP_5 or event.key ==pygame.K_KP_6 or event.key ==pygame.K_KP_7 or event.key ==pygame.K_KP_8 ) and len(self.user_text)<9 : 
                                  self.user_text+= event.unicode   
-                                 self.text_surface = self.base_font.render(self.user_text,True,(255,255,255))
+                                 self.text_surface = self.base_font.render(self.user_text,True,(0,0,0))
                                  self.screen.blit(self.text_surface,(self.input_txt.x+5,self.input_txt.y+5))
                                  pygame.display.flip()
                                  print(self.user_text) 
@@ -235,7 +237,7 @@ class Game:
                         if event.type == pygame.KEYUP:
                             if event.key == 110:
                                 print("N")
-                                self.new()
+                                self.start_window()
                     else:
                         if event.type == pygame.MOUSEMOTION:
                              pygame.draw.rect(self.screen, BLACK, (0,0, width, SQUARESIZE))
@@ -277,7 +279,8 @@ class Game:
                                     end = time.time()
                                     self.avgTime+= (end - start)
                                     self.expandedNodes += algo.expandedNode
-                                    print("Expanded Nodes: ", self.expandedNodes)
+
+                                    print(bin(move.rep))
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
                                     print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
@@ -299,8 +302,8 @@ class Game:
                                     label4 = myfont.render("Expanded Nodes " + str(self.expandedNodes), 1, MINTGREEN)
                                     self.screen.blit(label, (10, 10))
                                     self.screen.blit(label2, (10, 60))
-                                    self.screen.blit(label3, (300, 60))
-                                    self.screen.blit(label4,(300,10))
+                                    self.screen.blit(label3, (280, 60))
+                                    self.screen.blit(label4,(280,10))
                                     self.draw_board(self.board)
                                     pygame.display.update()
 
