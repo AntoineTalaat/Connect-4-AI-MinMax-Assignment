@@ -13,7 +13,6 @@ class MinMax:
     def maxValue(self, k, state, withAlphaBeta, alpha , beta):
         self.expandedNodes=self.expandedNodes+1
         v = float('-inf')
-
         move = None
         if k == 0 or state.isFull():
             return state.getScore(self.AIcolor), state
