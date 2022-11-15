@@ -1,6 +1,6 @@
 class Converter:
 
-    def convertStateToArray(self,inState):
+    def convertStateToArray(self,inState:int):
         state = "{0:b}".format(inState)
         rows, cols = (6, 7)
         arrayState = [['w' for i in range(cols)] for j in range(rows)]
