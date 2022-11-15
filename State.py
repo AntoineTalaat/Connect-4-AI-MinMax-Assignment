@@ -9,10 +9,10 @@ class State:
     alpha = -math.inf
     beta = math.inf
     def __init__(self):
-        max = True
-        rep = int('0b111111000111111000111111000111111000111111000111111000111111000', 2)
-        alpha = -math.inf
-        beta = math.inf
+        self.max = True
+        self.rep = int('0b111111000111111000111111000111111000111111000111111000111111000', 2)
+        self.alpha = -math.inf
+        self.beta = math.inf
 
     def getScore(self, aiColor):
         c = Converter.Converter()
