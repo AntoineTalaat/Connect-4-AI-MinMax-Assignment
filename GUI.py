@@ -208,16 +208,17 @@ class Game:
                                             self.new()
                                      
                                      print("Yellow") 
-                         for box in self.boxes:
-                             box.update_checkbox(event)
-                             if box.checked is True:
-                                print(box.caption)
-                                for b in self.boxes:
-                                    if b != box:
-                                        b.checked = False 
-                                for box in self.boxes:
-                                    box.render_checkbox()
-                                    pygame.display.flip()          
+                         if self.start:            
+                             for box in self.boxes:
+                                box.update_checkbox(event)
+                                if box.checked is True:
+                                   print(box.caption)
+                                   for b in self.boxes:
+                                        if b != box:
+                                            b.checked = False 
+                                   for box in self.boxes:
+                                        box.render_checkbox()
+                                        pygame.display.flip()          
                                            
 
                             
