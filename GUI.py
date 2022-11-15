@@ -122,6 +122,7 @@ class Game:
         self.player_1_Score = 0
         self.player_2_Score = 0
         self.avgTime = 0
+        self.expandedNodes = 0
        
         
 
@@ -140,6 +141,8 @@ class Game:
             value, move = algo.MinMax(int(self.user_text), s, True,self.colorUser)
             end = time.time()
             self.avgTime+= (end - start)
+            self.expandedNodes += algo.expandedNodes
+            print("Expanded Nodes: ", self.expandedNodes)
             self.board = conv.convertStateToArray(move.rep)
             h = Heuristic(self.board)
             print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
@@ -273,6 +276,8 @@ class Game:
                                     value, move = algo.MinMax(int(self.user_text), s, True,self.colorUser)
                                     end = time.time()
                                     self.avgTime+= (end - start)
+                                    self.expandedNodes += algo.expandedNodes
+                                    print("Expanded Nodes: ", self.expandedNodes)
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
                                     print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
