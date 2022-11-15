@@ -32,6 +32,9 @@ class Converter:
         return arrayState
 
     def convertArrayToState(self, arr):
+        print("e7na fi el bta3 da ")
+        for row in arr:
+            print(row)
         representation = ""
         rows = len(arr)
         columns = len(arr[0])
@@ -49,7 +52,7 @@ class Converter:
                 else:
                     representation += "1"
             representation += binary
-
+        print("representation :" , representation)   
         representation = int(representation,2)
         return representation
 
