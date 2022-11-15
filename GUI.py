@@ -138,10 +138,10 @@ class Game:
             s.rep = conv.convertArrayToState(self.board)
             algo = MinMax()
             start = time.time()
-            value, move = algo.MinMax(int(self.user_text), s, True,self.colorUser)
+            value, move = algo.MinMax(int(self.user_text), s, self.alphaBeta,self.colorUser)
             end = time.time()
             self.avgTime+= (end - start)
-            self.expandedNodes += algo.expandedNodes
+            self.expandedNodes += algo.expandedNode
             print("Expanded Nodes: ", self.expandedNodes)
             self.board = conv.convertStateToArray(move.rep)
             h = Heuristic(self.board)
@@ -273,17 +273,18 @@ class Game:
                                     print("run algo")
                                     algo = MinMax()
                                     start = time.time()
-                                    value, move = algo.MinMax(int(self.user_text), s, True,self.colorUser)
+                                    value, move = algo.MinMax(int(self.user_text), s, self.alphaBeta,self.colorUser)
                                     end = time.time()
                                     self.avgTime+= (end - start)
-                                    self.expandedNodes += algo.expandedNodes
+                                    self.expandedNodes += algo.expandedNode
                                     print("Expanded Nodes: ", self.expandedNodes)
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
                                     print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
 
                                     self.printBoardConsole(self.board)
-                                    self.turns -= 1
+                                    if self.turns !=0:
+                                        self.turns -= 1
                              
                                 self.draw_board(self.board)
 
@@ -292,12 +293,14 @@ class Game:
                                     self.player_1_Score = self.winning_move(self.board, 'r')
                                     self.player_2_Score = self.winning_move(self.board, 'y')
                                     print(self.player_1_Score, self.player_2_Score)
-                                    label = myfont.render("Red score = " + str(self.player_1_Score), 1, RED)
-                                    label2 = myfont.render("Yellow score = " + str(self.player_2_Score), 1, YELLOW)
-                                    label3 = myfont.render("Avg time = " + str(self.avgTime/21) + " sec", 1, (255,255,255))
+                                    label = myfont.render("Red = " + str(self.player_1_Score), 1, RED)
+                                    label2 = myfont.render("Yellow = " + str(self.player_2_Score), 1, YELLOW)
+                                    label3 = myfont.render("Avg time = " + str(round((self.avgTime/21),3)) + " sec", 1, (255,255,255))
+                                    label4 = myfont.render("Expanded Nodes " + str(self.expandedNodes), 1, MINTGREEN)
                                     self.screen.blit(label, (10, 10))
-                                    self.screen.blit(label2, (300, 10))
-                                    self.screen.blit(label3, (10, 60))
+                                    self.screen.blit(label2, (10, 60))
+                                    self.screen.blit(label3, (300, 60))
+                                    self.screen.blit(label4,(300,10))
                                     self.draw_board(self.board)
                                     pygame.display.update()
 
