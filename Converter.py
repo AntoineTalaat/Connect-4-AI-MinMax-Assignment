@@ -1,7 +1,13 @@
+import State
+
+
 class Converter:
 
     def convertStateToArray(self,inState:int):
         state = "{0:b}".format(inState)
+        if(len(state) < 63):
+            for i in range(63 - len(state)):
+                state = "0" + state
         rows, cols = (6, 7)
         arrayState = [['w' for i in range(cols)] for j in range(rows)]
         state = str(state)
@@ -46,3 +52,14 @@ class Converter:
 
         representation = int(representation,2)
         return representation
+
+    def convertStateToString(self, rep):
+        state = "{0:b}".format(rep)
+        stringState = ""
+
+        for i in range(7):
+            index = i * 9
+            stringState = stringState + state[index: index+6] + "(" + state[index+6: index+9] + ")-"
+
+        stringState = stringState[0: len(stringState) - 1]
+        return stringState

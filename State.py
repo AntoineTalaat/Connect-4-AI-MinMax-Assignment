@@ -57,12 +57,10 @@ class State:
         for i in range(7):
             child = State()
             if self.max == True:
-                # print("i ", i)
                 flag, child.rep = self.addToColumn(self.rep, i, 'y')
                 child.max = myChildMax
 
             else:
-                #  print("i ", i)
                 flag, child.rep = self.addToColumn(self.rep, i, 'r')
                 child.max = myChildMax
 
