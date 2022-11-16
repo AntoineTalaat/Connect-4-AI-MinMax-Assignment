@@ -128,7 +128,7 @@ class Game:
 
         if self.start == False:
             self.board = self.create_board()
-            self.print_board(self.board)
+         #   self.print_board(self.board)
             self.draw_board(self.board)
 
         if self.turn == 1:
@@ -142,12 +142,12 @@ class Game:
             end = time.time()
             self.avgTime+= (end - start)
             self.expandedNodes += algo.expandedNodes
-            print("Expanded Nodes: ", self.expandedNodes)
+          #  print("Expanded Nodes: ", self.expandedNodes)
             print(algo.tree.show())
             self.board = conv.convertStateToArray(move.rep)
             h = Heuristic(self.board)
             print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
-            self.printBoardConsole(self.board)
+          #  self.printBoardConsole(self.board)
             self.turns -= 1
             self.draw_board(self.board)
 
@@ -186,7 +186,7 @@ class Game:
                                  self.text_surface = self.base_font.render(self.user_text,True,(0,0,0))
                                  self.screen.blit(self.text_surface,(self.input_txt.x+5,self.input_txt.y+5))
                                  pygame.display.flip()
-                                 print(self.user_text) 
+                              #   print(self.user_text)
                      if event.type== pygame.MOUSEBUTTONDOWN:
                          mouse_x, mouse_y = pygame.mouse.get_pos()
                          for button in self.button_list:
@@ -217,12 +217,12 @@ class Game:
                                             self.colorUser='y'
                                             self.new()
                                      
-                                     print("Yellow") 
+                                    # print("Yellow")
                          if self.start:            
                              for box in self.boxes:
                                 box.update_checkbox(event)
                                 if box.checked is True:
-                                   print(box.caption)
+                                 #  print(box.caption)
                                    for b in self.boxes:
                                         if b != box:
                                             b.checked = False 
@@ -237,7 +237,7 @@ class Game:
                     if self.finish:
                         if event.type == pygame.KEYUP:
                             if event.key == 110:
-                                print("N")
+                              #  print("N")
                                 self.start_window()
                     else:
                         if event.type == pygame.MOUSEMOTION:
@@ -268,25 +268,25 @@ class Game:
                                     self.turns -= 1
                                     self.draw_board(self.board)
                                     conv = Converter.Converter()
-                                    print("sending this to algorithm")
-                                    self.printBoardConsole(self.board)
+                                   # print("sending this to algorithm")
+                                   # self.printBoardConsole(self.board)
 
                                     s.rep = conv.convertArrayToState(self.board)
-                                    print(bin(s.rep))
-                                    print("run algo")
+                                  #  print(bin(s.rep))
+                                  #  print("run algo")
                                     algo = MinMax()
                                     start = time.time()
                                     value, move = algo.MinMax(int(self.user_text), s, self.alphaBeta,self.colorUser)
                                     end = time.time()
                                     self.avgTime+= (end - start)
                                     self.expandedNodes += algo.expandedNodes
-                                    print("Expanded Nodes: ", self.expandedNodes)
+                                  #  print("Expanded Nodes: ", self.expandedNodes)
                                     print(algo.tree.show())
                                     self.board = conv.convertStateToArray(move.rep)
                                     h = Heuristic(self.board)
                                     print("The Heuristic of the screen as a value = " ,h.getHeuristicScore())
 
-                                    self.printBoardConsole(self.board)
+                                  #  self.printBoardConsole(self.board)
                                     if self.turns !=0:
                                         self.turns -= 1
                              
@@ -296,7 +296,7 @@ class Game:
                                     self.finish = True
                                     self.player_1_Score = self.winning_move(self.board, 'r')
                                     self.player_2_Score = self.winning_move(self.board, 'y')
-                                    print(self.player_1_Score, self.player_2_Score)
+                                #    print(self.player_1_Score, self.player_2_Score)
                                     label = myfont.render("Red = " + str(self.player_1_Score), 1, RED)
                                     label2 = myfont.render("Yellow = " + str(self.player_2_Score), 1, YELLOW)
                                     label3 = myfont.render("Avg time = " + str(round((self.avgTime/21),3)) + " sec", 1, (255,255,255))
